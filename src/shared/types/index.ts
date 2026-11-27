@@ -20,3 +20,10 @@ export type {
   AutomationSettings,
   AppSettings,
 } from './settings';
+
+export type {
+  BrowserId,
+  BrowserScanStatus,
+  BrowserScanResult,
+  BrowserMonitoringSnapshot,
+} from './browser';
