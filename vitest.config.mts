@@ -23,6 +23,9 @@ export default defineConfig({
 
       include: [
         'src/shared/**/*.ts',
+        'src/main/adapters/**/*.ts',
+        'src/main/lib/**/*.ts',
+        'src/renderer/src/shared/lib/**/*.ts',
       ],
 
       exclude: [
