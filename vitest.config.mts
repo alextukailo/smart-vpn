@@ -25,7 +25,11 @@ export default defineConfig({
         'src/shared/**/*.ts',
         'src/main/adapters/**/*.ts',
         'src/main/lib/**/*.ts',
+        'src/main/services/**/*.ts',
+        'src/main/repositories/**/*.ts',
+        'src/main/ipc/validate-arguments.ts',
         'src/renderer/src/shared/lib/**/*.ts',
+        'src/renderer/src/entities/**/lib/**/*.ts',
       ],
 
       exclude: [
@@ -35,6 +39,13 @@ export default defineConfig({
       ],
 
       reportsDirectory: './coverage',
+
+      thresholds: {
+        statements: 90,
+        branches: 85,
+        functions: 90,
+        lines: 90,
+      },
     },
   },
 });

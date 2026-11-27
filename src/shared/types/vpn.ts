@@ -12,3 +12,9 @@ export interface VpnConnection {
   status: VpnStatus;
   enabled: boolean;
 }
+
+export interface VpnOperationResult {
+  id: string;
+  status: VpnStatus;
+  changed: boolean;
+}

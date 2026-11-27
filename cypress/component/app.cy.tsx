@@ -2,34 +2,16 @@
 import App from '@renderer/app/App';
 
 import {
-  type PlatformInfo,
-  type SmartVpnApi,
-} from '@shared/types';
+  createMockApi,
+} from '../support/mocks/vpn-api.mock';
 
-const systemInfo: PlatformInfo = {
-  platform: 'darwin',
-  architecture: 'arm64',
-  supported: true,
-  appVersion: '1.0.0',
-};
-
-describe('Smart VPN application', () => {
-  const mountApp = (): void => {
+describe('Smart VPN dashboard', () => {
+  beforeEach(() => {
     cy.window().then((window) => {
-      const api: SmartVpnApi = {
-        system: {
-          getInfo: () => Promise.resolve(systemInfo),
-        },
-      };
-
-      window.api = api;
+      window.api = createMockApi();
     });
 
     cy.mount(<App />);
-  };
-
-  beforeEach(() => {
-    mountApp();
   });
 
   it('renders the application heading', () => {
@@ -43,38 +25,67 @@ describe('Smart VPN application', () => {
       .should('be.visible');
   });
 
-  it('displays the initialization status', () => {
-    cy.get('[role="status"]')
-      .should('contain.text', 'Application initialized');
-  });
-
-  it('displays the application description', () => {
-    cy.contains('Automatic VPN management for macOS and Windows.')
-      .should('be.visible');
-  });
-
-  it('uses the primary brand color', () => {
-    cy.get('h1')
-      .should('have.css', 'color', 'rgb(9, 39, 71)');
-  });
-
-  it('uses the yellow accent color', () => {
-    cy.get('[data-testid="brand-icon"]')
-      .should('have.css', 'background-color', 'rgb(255, 212, 67)');
-  });
-
-  it('displays the operating system', () => {
-    cy.contains('dd', 'macOS')
-      .should('be.visible');
-  });
-
-  it('displays the system architecture', () => {
-    cy.contains('dd', 'arm64')
+  it('displays system information', () => {
+    cy.contains('macOS · ARM64')
       .should('be.visible');
   });
 
   it('displays the application version', () => {
-    cy.contains('dd', '1.0.0')
+    cy.contains('v1.0.0')
       .should('be.visible');
+  });
+
+  it('displays all available connections', () => {
+    cy.get('[data-testid="vpn-connection"]')
+      .should('have.length', 4);
+  });
+
+  it('displays the active VPN connection', () => {
+    cy.contains('h2', 'Urban VPN Desktop')
+      .should('be.visible');
+  });
+
+  it('disables connecting another VPN while one is active', () => {
+    cy.contains(
+      '[data-testid="vpn-connection"]',
+      'Hetzner VPN',
+    ).within(() => {
+      cy.contains('button', 'Connect')
+        .should('be.disabled');
+    });
+  });
+
+  it('disconnects the active VPN', () => {
+    cy.contains('button', 'Disconnect VPN')
+      .click();
+
+    cy.contains('h2', 'Not connected')
+      .should('be.visible');
+  });
+
+  it('connects another VPN after disconnecting the active VPN', () => {
+    cy.contains('button', 'Disconnect VPN')
+      .click();
+
+    cy.contains(
+      '[data-testid="vpn-connection"]',
+      'Hetzner VPN',
+    ).within(() => {
+      cy.contains('button', 'Connect')
+        .should('be.enabled')
+        .click();
+    });
+
+    cy.contains('h2', 'Hetzner VPN')
+      .should('be.visible');
+  });
+
+  it('uses the yellow brand accent', () => {
+    cy.get('[data-testid="brand-icon"]')
+      .should(
+        'have.css',
+        'background-color',
+        'rgb(255, 212, 67)',
+      );
   });
 });

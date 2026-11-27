@@ -1,6 +1,7 @@
 export type {
   VpnStatus,
   VpnConnection,
+  VpnOperationResult,
 } from './vpn';
 
 export type {
@@ -11,3 +12,9 @@ export type {
 export type {
   SmartVpnApi,
 } from './api';
+
+export type {
+  DomainRule,
+  AutomationSettings,
+  AppSettings,
+} from './settings';
