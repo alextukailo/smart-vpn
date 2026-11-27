@@ -24,6 +24,10 @@ import {
   clearTrustedRenderer,
 } from './ipc/validate-sender';
 
+import {
+  createApplicationServices,
+} from './application';
+
 let mainWindow: BrowserWindow | null = null;
 
 const getRendererUrl = (): string => {
@@ -150,7 +154,11 @@ const initializeApplication = async (): Promise<void> => {
     });
   }
 
-  registerIpcHandlers();
+  const services = createApplicationServices(
+    app.getPath('userData'),
+  );
+
+  registerIpcHandlers(services);
 
   createWindow();
 

@@ -9,25 +9,14 @@ import {
   type VpnOperationResult,
 } from '../../shared/types';
 
-import { createVpnAdapter } from '../adapters/vpn';
-import { VpnService } from '../services/vpn';
+import { type VpnService } from '../services/vpn';
 
 import { validateSender } from './validate-sender';
 import { validateVpnId } from './validate-arguments';
 
-let vpnService: VpnService | null = null;
-
-const getVpnService = (): VpnService => {
-  if (!vpnService) {
-    vpnService = new VpnService(
-      createVpnAdapter(),
-    );
-  }
-
-  return vpnService;
-};
-
-export const registerVpnIpc = (): void => {
+export const registerVpnIpc = (
+  getVpnService: () => VpnService,
+): void => {
   ipcMain.handle(
     IPC_CHANNELS.VPN.LIST,
     async (event): Promise<VpnConnection[]> => {
@@ -81,11 +70,7 @@ export const registerVpnIpc = (): void => {
 };
 
 export const unregisterVpnIpc = (): void => {
-  const channels = Object.values(
-    IPC_CHANNELS.VPN,
-  );
-
-  for (const channel of channels) {
+  for (const channel of Object.values(IPC_CHANNELS.VPN)) {
     ipcMain.removeHandler(channel);
   }
 };

@@ -203,4 +203,40 @@ describe('SettingsService', () => {
     expect(repository.save)
       .toHaveBeenCalledTimes(2);
   });
+
+  it('disables automation when changing the primary VPN', async () => {
+    const settings = createDefaultSettings();
+
+    settings.primaryVpnId = 'previous-vpn';
+    settings.automation.enabled = true;
+
+    repository.load.mockResolvedValue(settings);
+
+    await expect(
+      service.setPrimaryVpn(VPN_ID),
+    ).resolves.toMatchObject({
+      primaryVpnId: VPN_ID,
+      automation: {
+        enabled: false,
+      },
+    });
+  });
+
+  it('preserves automation when selecting the same primary VPN', async () => {
+    const settings = createDefaultSettings();
+
+    settings.primaryVpnId = VPN_ID;
+    settings.automation.enabled = true;
+
+    repository.load.mockResolvedValue(settings);
+
+    await expect(
+      service.setPrimaryVpn(VPN_ID),
+    ).resolves.toMatchObject({
+      primaryVpnId: VPN_ID,
+      automation: {
+        enabled: true,
+      },
+    });
+  });
 });

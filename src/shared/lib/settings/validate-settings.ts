@@ -1,7 +1,12 @@
 
-import { type AppSettings } from '../../types';
+import {
+  type AppSettings,
+  type DomainRule,
+} from '../../types';
 
 import { normalizeDomain } from '../domain';
+
+const MAX_DOMAIN_RULES = 1_000;
 
 const isRecord = (
   value: unknown,
@@ -44,18 +49,46 @@ const isValidIdentifier = (
 
 const isValidDomainRule = (
   value: unknown,
-): boolean => {
+): value is DomainRule => {
   if (!isRecord(value)) {
     return false;
   }
 
-  return (
-    isValidIdentifier(value.id) &&
-    typeof value.domain === 'string' &&
-    normalizeDomain(value.domain) === value.domain &&
-    typeof value.enabled === 'boolean' &&
-    typeof value.includeSubdomains === 'boolean'
-  );
+  if (
+    !isValidIdentifier(value.id) ||
+    typeof value.domain !== 'string' ||
+    typeof value.enabled !== 'boolean' ||
+    typeof value.includeSubdomains !== 'boolean'
+  ) {
+    return false;
+  }
+
+  try {
+    return normalizeDomain(value.domain) === value.domain;
+  } catch {
+    return false;
+  }
+};
+
+const hasUniqueDomainRules = (
+  domains: DomainRule[],
+): boolean => {
+  const ids = new Set<string>();
+  const hostnames = new Set<string>();
+
+  for (const rule of domains) {
+    if (
+      ids.has(rule.id) ||
+      hostnames.has(rule.domain)
+    ) {
+      return false;
+    }
+
+    ids.add(rule.id);
+    hostnames.add(rule.domain);
+  }
+
+  return true;
 };
 
 export const isValidSettings = (
@@ -79,7 +112,9 @@ export const isValidSettings = (
       !isValidIdentifier(primaryVpnId)
     ) ||
     !Array.isArray(domains) ||
+    domains.length > MAX_DOMAIN_RULES ||
     !domains.every(isValidDomainRule) ||
+    !hasUniqueDomainRules(domains) ||
     !isRecord(automation)
   ) {
     return false;

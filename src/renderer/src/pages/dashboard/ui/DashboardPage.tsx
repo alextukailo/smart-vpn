@@ -21,6 +21,9 @@ import {
   VpnConnections,
 } from '@renderer/widgets/vpn-connections';
 
+import { PrimaryVpn } from '@renderer/widgets/primary-vpn';
+import { DomainRules } from '@renderer/widgets/domain-rules';
+
 import { Button } from '@renderer/shared/ui/button';
 
 export const DashboardPage = (): ReactElement => {
@@ -149,6 +152,15 @@ export const DashboardPage = (): ReactElement => {
           onConnect={handleConnect}
           onDisconnect={handleDisconnect}
         />
+
+        <PrimaryVpn
+          connections={connections}
+          isLoading={vpnQuery.isPending}
+          isError={vpnQuery.isError}
+          isBusy={vpnMutation.isPending}
+        />
+
+        <DomainRules />
       </main>
 
       <footer className="mx-auto flex w-full max-w-3xl items-center gap-2 px-6 pb-5 text-xs text-muted">

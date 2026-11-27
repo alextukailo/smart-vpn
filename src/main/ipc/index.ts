@@ -1,3 +1,8 @@
+
+import {
+  type ApplicationServices,
+} from '../application';
+
 import {
   registerSystemIpc,
   unregisterSystemIpc,
@@ -8,12 +13,27 @@ import {
   unregisterVpnIpc,
 } from './vpn.ipc';
 
-export const registerIpcHandlers = (): void => {
+import {
+  registerSettingsIpc,
+  unregisterSettingsIpc,
+} from './settings.ipc';
+
+export const registerIpcHandlers = (
+  services: ApplicationServices,
+): void => {
   registerSystemIpc();
-  registerVpnIpc();
+
+  registerVpnIpc(
+    services.getVpnService,
+  );
+
+  registerSettingsIpc(
+    services.settings,
+  );
 };
 
 export const unregisterIpcHandlers = (): void => {
   unregisterSystemIpc();
   unregisterVpnIpc();
+  unregisterSettingsIpc();
 };

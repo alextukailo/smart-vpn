@@ -9,4 +9,12 @@ export const IPC_CHANNELS = {
     CONNECT: 'vpn:connect',
     DISCONNECT: 'vpn:disconnect',
   },
+
+  SETTINGS: {
+    GET: 'settings:get',
+    SET_PRIMARY_VPN: 'settings:set-primary-vpn',
+    ADD_DOMAIN: 'settings:add-domain',
+    UPDATE_DOMAIN: 'settings:update-domain',
+    REMOVE_DOMAIN: 'settings:remove-domain',
+  },
 } as const;

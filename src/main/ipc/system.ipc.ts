@@ -1,3 +1,4 @@
+
 import { app, ipcMain } from 'electron';
 
 import { IPC_CHANNELS } from '../../shared/constants/ipc';

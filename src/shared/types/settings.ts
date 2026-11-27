@@ -1,4 +1,17 @@
+
 export interface DomainRule {
+  id: string;
+  domain: string;
+  enabled: boolean;
+  includeSubdomains: boolean;
+}
+
+export interface CreateDomainRuleInput {
+  domain: string;
+  includeSubdomains: boolean;
+}
+
+export interface UpdateDomainRuleInput {
   id: string;
   domain: string;
   enabled: boolean;

@@ -34,6 +34,32 @@ const api: SmartVpnApi = {
       id,
     ),
   },
+
+  settings: {
+    get: () => ipcRenderer.invoke(
+      IPC_CHANNELS.SETTINGS.GET,
+    ),
+
+    setPrimaryVpn: (id) => ipcRenderer.invoke(
+      IPC_CHANNELS.SETTINGS.SET_PRIMARY_VPN,
+      id,
+    ),
+
+    addDomain: (input) => ipcRenderer.invoke(
+      IPC_CHANNELS.SETTINGS.ADD_DOMAIN,
+      input,
+    ),
+
+    updateDomain: (input) => ipcRenderer.invoke(
+      IPC_CHANNELS.SETTINGS.UPDATE_DOMAIN,
+      input,
+    ),
+
+    removeDomain: (id) => ipcRenderer.invoke(
+      IPC_CHANNELS.SETTINGS.REMOVE_DOMAIN,
+      id,
+    ),
+  },
 };
 
 contextBridge.exposeInMainWorld('api', api);

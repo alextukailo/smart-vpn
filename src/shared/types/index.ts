@@ -15,6 +15,8 @@ export type {
 
 export type {
   DomainRule,
+  CreateDomainRuleInput,
+  UpdateDomainRuleInput,
   AutomationSettings,
   AppSettings,
 } from './settings';
