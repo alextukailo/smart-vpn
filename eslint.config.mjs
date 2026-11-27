@@ -7,6 +7,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import importPlugin from 'eslint-plugin-import';
+import cypress from 'eslint-plugin-cypress';
 import globals from 'globals';
 
 export default [
@@ -28,7 +29,7 @@ export default [
   ...tseslint.configs.recommended,
 
   {
-    files: ['**/*.{js,mjs,cjs,ts,tsx,jsx}'],
+    files: ['**/*.{js,mjs,cjs,ts,mts,cts,tsx,jsx}'],
 
     plugins: {
       '@stylistic': stylistic,
@@ -98,7 +99,7 @@ export default [
 
   // TypeScript
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.{ts,mts,cts,tsx}'],
 
     rules: {
       '@typescript-eslint/no-explicit-any': 'warn',
@@ -126,7 +127,7 @@ export default [
   {
     files: [
       'src/main/**/*.{js,ts}',
-      '**/*.config.{js,mjs,cjs,ts}',
+      '**/*.config.{js,mjs,cjs,ts,mts,cts}',
     ],
 
     languageOptions: {
@@ -242,6 +243,57 @@ export default [
 
     rules: {
       '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
+
+  // Cypress recommended rules
+  {
+    ...cypress.configs.recommended,
+
+    files: [
+      'cypress/**/*.{ts,tsx}',
+    ],
+  },
+
+  // Cypress React component tests
+  {
+    files: [
+      'cypress/**/*.tsx',
+    ],
+
+    plugins: {
+      react,
+    },
+
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+
+    rules: {
+      ...react.configs.recommended.rules,
+      ...react.configs['jsx-runtime'].rules,
+
+      'react/prop-types': 'off',
+
+      '@stylistic/jsx-indent-props': ['error', 2],
+
+      '@stylistic/jsx-quotes': [
+        'error',
+        'prefer-double',
+      ],
+    },
+  },
+
+  // Cypress type augmentation
+  {
+    files: [
+      'cypress/support/component.ts',
+    ],
+
+    rules: {
+      '@typescript-eslint/no-namespace': 'off',
     },
   },
 ];

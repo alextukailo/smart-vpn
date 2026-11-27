@@ -1,9 +1,8 @@
-import { type ElectronAPI } from '@electron-toolkit/preload';
+import { type SmartVpnApi } from '../shared/types';
 
 declare global {
   interface Window {
-    electron: ElectronAPI;
-    api: Record<string, never>;
+    api: SmartVpnApi;
   }
 }
 

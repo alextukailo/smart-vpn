@@ -1,7 +1,17 @@
-import { contextBridge } from 'electron';
-import { electronAPI } from '@electron-toolkit/preload';
+import {
+  contextBridge,
+  ipcRenderer,
+} from 'electron';
 
-const api = {};
+import { IPC_CHANNELS } from '../shared/constants/ipc';
+import { type SmartVpnApi } from '../shared/types';
 
-contextBridge.exposeInMainWorld('electron', electronAPI);
+const api: SmartVpnApi = {
+  system: {
+    getInfo: () => ipcRenderer.invoke(
+      IPC_CHANNELS.SYSTEM.GET_INFO,
+    ),
+  },
+};
+
 contextBridge.exposeInMainWorld('api', api);
