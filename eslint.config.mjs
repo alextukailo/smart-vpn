@@ -198,14 +198,6 @@ export default [
       '@stylistic/jsx-child-element-spacing': 'error',
       '@stylistic/jsx-closing-tag-location': 'error',
 
-      '@stylistic/jsx-indent': [
-        'error',
-        2,
-        {
-          indentLogicalExpressions: true,
-        },
-      ],
-
       '@stylistic/jsx-indent-props': ['error', 2],
 
       '@stylistic/jsx-curly-spacing': [
