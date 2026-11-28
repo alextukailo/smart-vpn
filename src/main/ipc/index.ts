@@ -18,6 +18,11 @@ import {
   unregisterSettingsIpc,
 } from './settings.ipc';
 
+import {
+  registerMonitoringIpc,
+  unregisterMonitoringIpc,
+} from './monitoring.ipc';
+
 export const registerIpcHandlers = (
   services: ApplicationServices,
 ): void => {
@@ -30,10 +35,15 @@ export const registerIpcHandlers = (
   registerSettingsIpc(
     services.settings,
   );
+
+  registerMonitoringIpc(
+    services.monitoring,
+  );
 };
 
 export const unregisterIpcHandlers = (): void => {
   unregisterSystemIpc();
   unregisterVpnIpc();
   unregisterSettingsIpc();
+  unregisterMonitoringIpc();
 };

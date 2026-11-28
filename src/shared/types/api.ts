@@ -13,6 +13,10 @@ import {
   type VpnOperationResult,
 } from './vpn';
 
+import {
+  type BrowserMonitoringState,
+} from './browser';
+
 export interface SmartVpnApi {
   system: {
     getInfo: () => Promise<PlatformInfo>;
@@ -43,5 +47,11 @@ export interface SmartVpnApi {
     removeDomain: (
       id: string,
     ) => Promise<AppSettings>;
+  };
+
+  monitoring: {
+    getState: () => Promise<BrowserMonitoringState>;
+    start: () => Promise<BrowserMonitoringState>;
+    stop: () => Promise<BrowserMonitoringState>;
   };
 }

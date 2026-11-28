@@ -21,3 +21,16 @@ export interface BrowserMonitoringSnapshot {
   matchedDomains: string[];
   checkedAt: string;
 }
+
+export type MonitoringStatus =
+  | 'stopped'
+  | 'starting'
+  | 'running'
+  | 'error';
+
+export interface BrowserMonitoringState {
+  status: MonitoringStatus;
+  snapshot: BrowserMonitoringSnapshot | null;
+  error: string | null;
+  pollingIntervalSeconds: number;
+}

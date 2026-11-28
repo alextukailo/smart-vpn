@@ -11,6 +11,10 @@ import {
 
 import { normalizeDomain } from '@shared/lib/domain';
 
+import {
+  createMonitoringMock,
+} from './monitoring-api.mock';
+
 const DEFAULT_CONNECTIONS: VpnConnection[] = [
   {
     id: 'vpn-1',
@@ -286,5 +290,7 @@ export const createMockApi = (
         return structuredClone(settings);
       },
     },
+
+    monitoring: createMonitoringMock(),
   };
 };

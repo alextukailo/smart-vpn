@@ -26,4 +26,6 @@ export type {
   BrowserScanStatus,
   BrowserScanResult,
   BrowserMonitoringSnapshot,
+  BrowserMonitoringState,
+  MonitoringStatus,
 } from './browser';

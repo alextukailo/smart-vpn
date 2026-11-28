@@ -17,4 +17,10 @@ export const IPC_CHANNELS = {
     UPDATE_DOMAIN: 'settings:update-domain',
     REMOVE_DOMAIN: 'settings:remove-domain',
   },
+
+  MONITORING: {
+    GET_STATE: 'monitoring:get-state',
+    START: 'monitoring:start',
+    STOP: 'monitoring:stop',
+  },
 } as const;

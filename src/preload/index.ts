@@ -60,6 +60,20 @@ const api: SmartVpnApi = {
       id,
     ),
   },
+
+  monitoring: {
+    getState: () => ipcRenderer.invoke(
+      IPC_CHANNELS.MONITORING.GET_STATE,
+    ),
+
+    start: () => ipcRenderer.invoke(
+      IPC_CHANNELS.MONITORING.START,
+    ),
+
+    stop: () => ipcRenderer.invoke(
+      IPC_CHANNELS.MONITORING.STOP,
+    ),
+  },
 };
 
 contextBridge.exposeInMainWorld('api', api);

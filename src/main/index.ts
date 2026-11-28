@@ -15,6 +15,11 @@ import {
 } from '@electron-toolkit/utils';
 
 import {
+  createApplicationServices,
+  type ApplicationServices,
+} from './application';
+
+import {
   registerIpcHandlers,
   unregisterIpcHandlers,
 } from './ipc';
@@ -24,11 +29,8 @@ import {
   clearTrustedRenderer,
 } from './ipc/validate-sender';
 
-import {
-  createApplicationServices,
-} from './application';
-
 let mainWindow: BrowserWindow | null = null;
+let services: ApplicationServices | null = null;
 
 const getRendererUrl = (): string => {
   const developmentUrl = process.env['ELECTRON_RENDERER_URL'];
@@ -154,7 +156,7 @@ const initializeApplication = async (): Promise<void> => {
     });
   }
 
-  const services = createApplicationServices(
+  services = createApplicationServices(
     app.getPath('userData'),
   );
 
@@ -187,6 +189,8 @@ app.on('window-all-closed', () => {
 });
 
 app.on('before-quit', () => {
+  services?.monitoring.stop();
+
   unregisterIpcHandlers();
   clearTrustedRenderer();
 });

@@ -24,6 +24,10 @@ import {
 import { PrimaryVpn } from '@renderer/widgets/primary-vpn';
 import { DomainRules } from '@renderer/widgets/domain-rules';
 
+import {
+  BrowserMonitoring,
+} from '@renderer/widgets/browser-monitoring';
+
 import { Button } from '@renderer/shared/ui/button';
 
 export const DashboardPage = (): ReactElement => {
@@ -138,6 +142,10 @@ export const DashboardPage = (): ReactElement => {
           isLoading={vpnQuery.isPending}
           isError={vpnQuery.isError}
           onDisconnect={handleDisconnect}
+        />
+
+        <BrowserMonitoring
+          supported={platform === 'darwin'}
         />
 
         <VpnConnections
