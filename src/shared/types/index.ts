@@ -29,3 +29,9 @@ export type {
   BrowserMonitoringState,
   MonitoringStatus,
 } from './browser';
+
+export type {
+  AutomationStatus,
+  ConnectionOwnership,
+  AutomationState,
+} from './automation';
